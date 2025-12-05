@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>给刘冰远的生日祝福 ❤️</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      /* 禁止 iOS Safari 自动放大字体 */
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    .slider {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .slider::-webkit-scrollbar { display: none; }
+
+    .page {
+      flex: 1 0 100%;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    /* ========== 背景统一 ========== */
+    .page-1,
+    .page-2,
+    .page-3,
+    .page-4,
+    .page-5{
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      color: white;
+    }
+
+    .envelope {
+      width: 200px;
+      height: 140px;
+      background: #fff;
+      border-radius: 8px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 70px;
+      background: #f8f9fa;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+    }
+
+    .hint {
+      margin-top: 40px;
+      font-size: 1.2em;
+      opacity: 0.9;
+      animation: bounce 2s forwards; /* 只动一次 */
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    .story-image {
+      width: 80%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      margin-bottom: 25px;
+      border: 3px solid rgba(255,255,255,0.3);
+    }
+
+    .story-text {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      border-radius: 16px;
+      font-size: 1.1em;
+      line-height: 1.6;
+      max-width: 600px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      color: #5a4a42;
+    }
+
+    .letter-page {
+      background: #fdf6ec;
+      color: #5a4a42;
+    }
+
+    .letter {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      font-size: 1em;
+      line-height: 1.7;
+      max-width: 600px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      position: relative;
+      text-align: center;
+    }
+
+    .letter::after {
+      content: "💌";
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+    }
+
+    .record-page {
+      background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+      color: white;
+    }
+
+    .record-container {
+      margin: 30px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .record {
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, #111 0%, #222 60%, #000 100%);
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      animation: rotateRecord 20s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .record.playing {
+      animation-play-state: running;
+    }
+
+    .record::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 36px;
+      height: 36px;
+      background: #d4af37;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+      z-index: 2;
+    }
+
+    .record::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: #000;
+      border-radius: 50%;
+      z-index: 3;
+    }
+
+    .record-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: repeating-radial-gradient(
+        circle at center,
+        transparent 0%,
+        transparent 1%,
+        rgba(255, 255, 255, 0.05) 1.1%,
+        rgba(255, 255, 255, 0.05) 2%
+      );
+      pointer-events: none;
+    }
+
+    .record-needle {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-25deg);
+      width: 60px;
+      height: 4px;
+      background: #555;
+      border-radius: 2px;
+      transform-origin: right center;
+      z-index: 10;
+      opacity: 0.8;
+    }
+
+    .record-needle::after {
+      content: '';
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background: #d4af37;
+      border-radius: 50%;
+    }
+
+    @keyframes rotateRecord {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .play-btn {
+      background: white;
+      color: #e17055;
+      border: none;
+      padding: 12px 40px;
+      font-size: 1.2em;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      margin-top: 20px;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .footer-note {
+      margin-top: 30px;
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+    
+    .final-note-page {
+      background: linear-gradient(135deg, #fff9f4, #ffebe6);
+      color: #5a4a42;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+    }
+
+    .final-letter {
+      background: white;
+      padding: 35px;
+      border-radius: 20px;
+      font-size: 1.15em;
+      line-height: 1.8;
+      max-width: 600px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+      position: relative;
+      text-align: left;
+      font-family: "Kaiti SC", "STKaiti", "KaiTi", "Times New Roman", serif;
+    }
+
+    .final-letter::before {
+      content: "💌";
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 20px;
+      opacity: 0.7;
+    }
+
+    .final-letter::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(to right, transparent, #ff9a9e, transparent);
+      border-radius: 2px;
+    }
+
+    #progress-dots {
+      position: fixed;
+      right: 20px;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 100;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: #ff6b6b;
+      transform: scale(1.3);
+    }
+
+    .photo-gallery {
+      position: relative;
+      width: 90%;
+      max-width: 400px;
+      aspect-ratio: 4 / 3;
+      margin-bottom: 25px;
+    }
+
+    .gallery-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .gallery-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .gallery-img.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.7);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
+      color: #555;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(2px);
+    }
+    .nav-btn.prev { left: 10px; }
+    .nav-btn.next { right: 10px; }
+    .nav-btn:hover {
+      background: white;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .gallery-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .gallery-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .gallery-dot.active {
+      background: #ff6b6b;
+      transform: scale(1.2);
+    }
+
+    /* ========== 移动端字体精确控制 ========== */
+    @media (max-width: 768px) {
+      /* 第2、3、4、5、8页文字强制缩小 */
+      .page-2 .story-text,
+      .page-3 .story-text,
+      .page-4 .story-text,
+      .page-5 .story-text,
+      .final-note-page .final-letter {
+        font-size: 0.85em !important;
+        line-height: 1.5 !important;
+      }
+
+      /* 其他元素适度缩小 */
+      .hint,
+      .footer-note,
+      .page h2,
+      .letter,
+      .play-btn {
+        font-size: 0.95em !important;
+      }
+
+      .letter,
+      .final-letter {
+        padding: 24px !important;
+      }
+
+      .play-btn {
+        padding: 10px 32px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .envelope { width: 160px; height: 110px; }
+      .story-image { width: 90%; }
+      #progress-dots {
+        right: 15px;
+        top: 80px;
+        gap: 10px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+      }
+      .photo-gallery { height: 280px; }
+      .nav-btn { width: 36px; height: 36px; font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 音频：禁止预加载 -->
+  <audio id="bgMusic" src="bg_music.mp3" loop preload="none"></audio>
+  <audio id="birthdaySong" src="birthday_song.mp3" preload="none"></audio>
+
+  <div id="progress-dots"></div>
+
+  <div class="slider" id="slider">
+    <div class="page page-1">
+      <div class="envelope"></div>
+      <div class="hint">👇 下滑打开你的生日祝福</div>
+    </div>
+    <div class="page page-2">
+      <img src="photo1.webp" loading="lazy" alt="1" class="story-image">
+      <div class="story-text">
+        初见你时笑眼弯弯望向我的模样，至今让我难以忘怀，我从前总想循着回忆，走回初遇的美好。
+      </div>
+    </div>
+    <div class="page page-3">
+      <img src="photo2.webp" loading="lazy" alt="2" class="story-image">
+      <div class="story-text">
+        那天你来学校找我，随你而来的是心意满满的零食，再酸的山楂也是甜的嘞！可惜喔，晚餐有点简陋，该把我饭卡塞给你的，因为这件事我一直觉得对你有亏欠。
+      </div>
+    </div>
+    <div class="page page-4">
+      <img src="photo3.webp" loading="lazy" alt="3" class="story-image">
+      <div class="story-text">
+        第一次一起看电影，我只敢悄悄在你的身后拍一张背影，这大概是我藏得最浅，却又舍不得说的小秘密吧？电影剧情早已模糊不清，可你靠近我耳边说话时，温热的气息轻轻扑在我的脸颊上，那种感觉在我的心里荡漾了很久。原来心动之后，是漫长的适应...
+      </div>
+    </div>
+    <div class="page page-5">
+      <div class="photo-gallery" id="photoGallery">
+        <div class="gallery-track" id="galleryTrack">
+          <img src="diary1.webp" loading="lazy" class="gallery-img">
+          <img src="diary2.webp" loading="lazy" class="gallery-img">
+          <img src="diary3.webp" loading="lazy" class="gallery-img">
+		  <img src="diary4.webp" loading="lazy" class="gallery-img">
+        </div>
+        <button class="nav-btn prev" id="prevBtn">‹</button>
+        <button class="nav-btn next" id="nextBtn">›</button>
+        <div class="gallery-dots" id="galleryDots"></div>
+      </div>
+      <div class="story-text">
+        分开的这段时间里，零零碎碎的写了一些小日记，大多在随手的那一页纸上，我已经找不全了.....不过我手里的这几篇日记还不太想给你看，写了好多丢人的话耶，等有机会再给你展示，嘻嘻~
+      </div>
+    </div>
+    <div class="page letter-page">
+      <div class="letter">
+        <p>亲爱的刘冰远：</p>
+        <p>生日快乐！🎂</p>
+        <p>谢谢你出现在我的生命里。</p>
+        <p>愿你在新的一岁，健康平安。</p>
+        <p>无论距离多远，我都想陪你走过每一个春夏秋冬。</p>
+        <p>永远爱你的王涵月</p>
+      </div>
+    </div>
+    <div class="page record-page">
+      <h2>🎁 最后，许个愿吧！</h2>
+      <div class="record-container">
+        <div class="record" id="record">
+          <div class="record-center"></div>
+          <div class="record-needle"></div>
+        </div>
+      </div>
+      <button class="play-btn" id="playButton">🎵 点我听你的生日歌</button>
+      <div class="footer-note">❤️ 愿你 岁岁平安</div>
+    </div>
+    <div class="page final-note-page">
+      <div class="final-letter">
+        很遗憾，这个网页准备的有些匆忙了，<br>
+        希望你不要嫌弃我简陋的制作，<br>
+        和没有伴奏的生日歌。<br>
+        而且正好今天你休息了，我好像也没有很长的时间陪你喔……<br><br>
+        不过我们很快就能见面啦！<br>
+        期待和你一起创造更多美好的回忆 ❤️<br><br>
+        爱你喔~<br>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const bgMusic = document.getElementById('bgMusic');
+    const birthdaySong = document.getElementById('birthdaySong');
+    const playBtn = document.getElementById('playButton');
+    const slider = document.getElementById('slider');
+
+    let bgMusicStarted = false;
+
+    function initBgMusic() {
+      if (bgMusicStarted) return;
+      bgMusicStarted = true;
+      bgMusic.volume = 0;
+      bgMusic.play().then(() => {
+        fadeVolume(bgMusic, 0, 0.3, 2000);
+      }).catch(e => console.log("背景音乐需用户交互才能播放"));
+    }
+
+    document.body.addEventListener('click', initBgMusic, { once: true });
+    document.body.addEventListener('touchstart', initBgMusic, { once: true });
+
+    function fadeVolume(audioEl, from, to, duration) {
+      const steps = 100;
+      const stepTime = duration / steps;
+      const stepVol = (to - from) / steps;
+      let currentVol = from;
+      audioEl.volume = currentVol;
+
+      const interval = setInterval(() => {
+        currentVol += stepVol;
+        audioEl.volume = Math.min(1, Math.max(0, currentVol));
+        if ((stepVol > 0 && currentVol >= to) || (stepVol < 0 && currentVol <= to)) {
+          audioEl.volume = to;
+          clearInterval(interval);
+        }
+      }, stepTime);
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (!bgMusic.paused) {
+        fadeVolume(bgMusic, bgMusic.volume, 0, 500);
+        setTimeout(() => bgMusic.pause(), 500);
+      }
+
+      const record = document.getElementById('record');
+
+      if (birthdaySong.paused) {
+        birthdaySong.play();
+        playBtn.textContent = '🎂 正在为你歌唱...';
+        record.classList.add('playing');
+      } else {
+        birthdaySong.pause();
+        playBtn.textContent = '🎵 点我听你的生日歌';
+        record.classList.remove('playing');
+        resumeBgMusic();
+      }
+    });
+
+    birthdaySong.addEventListener('ended', () => {
+      playBtn.textContent = '🎵 再听一遍？';
+      document.getElementById('record').classList.remove('playing');
+      resumeBgMusic();
+    });
+
+    function resumeBgMusic() {
+      if (!bgMusicStarted) return;
+      bgMusic.currentTime = 0;
+      bgMusic.volume = 0;
+      bgMusic.play().then(() => {
+        fadeVolume(bgMusic, 0, 0.3, 2000);
+      });
+    }
+
+    // 页面进度指示器
+    const totalPages = document.querySelectorAll('.page').length;
+    const dotsContainer = document.getElementById('progress-dots');
+
+    for (let i = 0; i < totalPages; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.dataset.index = i;
+      dot.addEventListener('click', () => {
+        slider.scrollTo({ top: i * window.innerHeight, behavior: 'smooth' });
+      });
+      dotsContainer.appendChild(dot);
+    }
+
+    const pageDots = document.querySelectorAll('.dot');
+    pageDots[0].classList.add('active');
+
+    let ticking = false;
+    slider.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentPage = Math.round(slider.scrollTop / window.innerHeight);
+          pageDots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentPage);
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // 日记画廊
+    const galleryTrack = document.getElementById('galleryTrack');
+    const galleryImgs = galleryTrack.querySelectorAll('.gallery-img');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const galleryDotsContainer = document.getElementById('galleryDots');
+
+    let currentIndex = 0;
+    const total = galleryImgs.length;
+
+    if (total > 0) {
+      galleryImgs[0].classList.add('active');
+    }
+
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'gallery-dot';
+      if (i === 0) dot.classList.add('active');
+      dot.dataset.index = i;
+      dot.addEventListener('click', () => goToSlide(i));
+      galleryDotsContainer.appendChild(dot);
+    }
+
+    const dots = galleryDotsContainer.querySelectorAll('.gallery-dot');
+
+    function goToSlide(index) {
+      if (total === 0) return;
+      if (index < 0) index = total - 1;
+      if (index >= total) index = 0;
+
+      galleryImgs[currentIndex].classList.remove('active');
+      dots[currentIndex].classList.remove('active');
+
+      currentIndex = index;
+      galleryImgs[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
+    }
+
+    prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+    nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+    let startX = 0;
+    galleryTrack.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+    galleryTrack.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          goToSlide(currentIndex + 1);
+        } else {
+          goToSlide(currentIndex - 1);
+        }
+      }
+    });
+
+    // 键盘翻页
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') slider.scrollTop += window.innerHeight;
+      else if (e.key === 'ArrowUp') slider.scrollTop -= window.innerHeight;
+    });
+  </script>
+</body>
+</html>
